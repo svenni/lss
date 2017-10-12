@@ -35,7 +35,11 @@ var badSequenceOfFileInstances = [
 ];
 
 var singleFileString = [
-    '/path/to/a123Sequence.0001.txt'
+    '/path/to/singleFile123sequence.0001.txt'
+];
+
+var singleFileStringNoDigits = [
+    '/path/to/nodigits.txt'
 ];
 
 describe('new Sequence([File | String])', function() {
@@ -114,6 +118,17 @@ describe('new Sequence([File | String])', function() {
             seq.files[0].should.be.an.instanceof(File);
         });
     });
+
+    describe('given an Array of a single string with no digits',
+        function() {
+
+        var seq = new Sequence(singleFileStringNoDigits);
+
+        it('should create File and add it to the \'.files\' array', function() {
+            seq.files.should.have.length(1);
+            seq.files[0].should.be.an.instanceof(File);
+        });
+    });
 });
 
 describe('Sequence.prototype.contains(File | String)', function() {
@@ -132,6 +147,7 @@ describe('Sequence.prototype.contains(File | String)', function() {
         it('should return true when the argument is a File', function() {
             seq.contains(fileInstance).should.be.true;
         });
+
     });
 
     describe('given a String or File with a single difference element with ' +
@@ -179,6 +195,17 @@ describe('Sequence.prototype.contains(File | String)', function() {
         it('should return false when the argument is a File', function() {
             seq.contains(fileInstance).should.be.false;
         });
+    });
+
+    describe('given a single file sequence and the same filename', function() {
+        var seq = new Sequence(singleFileString),
+            fileString = singleFileString[0],
+            fileInstance = new File(singleFileString[0]);
+        console.log("YEAH");
+        console.log(seq);
+        it('should return true when the argument is a string', function() {
+            seq.contains(fileString).should.be.true;
+        })
     });
 });
 
@@ -242,6 +269,78 @@ describe('Sequence.prototype.push(File | String)', function() {
 });
 
 describe('Sequence.prototype.format()', function() {
+
+    var seq = new Sequence(goodSequenceOfFileStrings);
+
+    describe('given no arguments', function() {
+
+        it('should output a string in default format ' +
+           '(%b%p%a)', function() {
+            seq.format().should.equal('a123Sequence.%04d.txt');
+        });
+    });
+
+    describe('given a format string', function() {
+
+        it('should replace directives with pertinent information', function() {
+            seq.format('%04l %b%r%a').should.equal('0005 a123Sequence.1-5.txt');
+            seq.format('%s %e').should.equal('1 5');
+            seq.format('%02s %02e').should.equal('01 05');
+            seq.format('%04r').should.equal('0001-0005');
+            seq.format('%b%#%a').should.equal('a123Sequence.####.txt');
+            seq.format('%r %p %r').should.equal('1-5 %04d 1-5');
+        });
+
+        it('should replace unknown directives with the literal ' +
+           'directive', function() {
+            seq.format('%b%c%a').should.equal('a123Sequence.c.txt');
+            seq.format('%b%%c%a').should.equal('a123Sequence.%c.txt');
+            seq.format('%b%%%a').should.equal('a123Sequence.%.txt');
+        });
+
+        it('should not replace non-directives', function() {
+            seq.format('s').should.equal('s');
+        });
+    });
+});
+
+describe('Sequence.prototype.format() for single sequences', function() {
+    console.log("---x");
+    var seq = new Sequence(singleFileString);
+    console.log("x---");
+    describe('given no arguments', function() {
+
+        it('should output a string in default format ' +
+           '(%b%p%a)', function() {
+            seq.format().should.equal('a123Sequence.%04d.txt');
+        });
+    });
+
+    describe('given a format string', function() {
+
+        it('should replace directives with pertinent information', function() {
+            seq.format('%04l %b%r%a').should.equal('0005 a123Sequence.1-5.txt');
+            seq.format('%s %e').should.equal('1 5');
+            seq.format('%02s %02e').should.equal('01 05');
+            seq.format('%04r').should.equal('0001-0005');
+            seq.format('%b%#%a').should.equal('a123Sequence.####.txt');
+            seq.format('%r %p %r').should.equal('1-5 %04d 1-5');
+        });
+
+        it('should replace unknown directives with the literal ' +
+           'directive', function() {
+            seq.format('%b%c%a').should.equal('a123Sequence.c.txt');
+            seq.format('%b%%c%a').should.equal('a123Sequence.%c.txt');
+            seq.format('%b%%%a').should.equal('a123Sequence.%.txt');
+        });
+
+        it('should not replace non-directives', function() {
+            seq.format('s').should.equal('s');
+        });
+    });
+});
+
+describe('Sequence.prototype.format() for single non-digit sequences (a file)', function() {
 
     var seq = new Sequence(goodSequenceOfFileStrings);
 
