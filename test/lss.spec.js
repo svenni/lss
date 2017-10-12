@@ -11,7 +11,7 @@ describe('lss(String, Callback)', function() {
         it('should return all sequences in the directory', function(done) {
 
             lss(path, function(err, sequences) {
-                sequences.should.have.length(2);
+                sequences.should.have.length(4);
                 done();
             });
         });

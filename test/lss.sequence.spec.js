@@ -34,6 +34,10 @@ var badSequenceOfFileInstances = [
     new File('/path/to/a124Sequence.0005.txt')
 ];
 
+var singleFileString = [
+    '/path/to/a123Sequence.0001.txt'
+];
+
 describe('new Sequence([File | String])', function() {
 
     describe('given an array of Files belonging to the same sequence',
@@ -97,6 +101,17 @@ describe('new Sequence([File | String])', function() {
 
             var seqB = new Sequence();
             seqB.files.should.have.length(0);
+        });
+    });
+
+    describe('given an Array of a single string',
+        function() {
+
+        var seq = new Sequence(singleFileString);
+
+        it('should create File and add it to the \'.files\' array', function() {
+            seq.files.should.have.length(1);
+            seq.files[0].should.be.an.instanceof(File);
         });
     });
 });

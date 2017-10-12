@@ -76,14 +76,12 @@ describe('list(String)', function() {
 
     describe('given a path to an existing directory', function() {
 
-        it('should list only the directory\'s files which contain ' +
-           'digits', function(done) {
+        it('should list all of the directory\'s files', function(done) {
 
             var path = join(__dirname, 'files');
 
             list(path, function(err, files) {
-                files.should.have.length(10);
-                files.should.match(/\d/);
+                files.should.have.length(12);
                 done();
             });
         });
