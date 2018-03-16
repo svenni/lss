@@ -1,5 +1,7 @@
 # vim buffers
 .*.swp
+*.sublime-project
+*.sublime-workspace
 
 # dependencies
 node_modules

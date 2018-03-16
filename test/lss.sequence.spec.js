@@ -201,8 +201,7 @@ describe('Sequence.prototype.contains(File | String)', function() {
         var seq = new Sequence(singleFileString),
             fileString = singleFileString[0],
             fileInstance = new File(singleFileString[0]);
-        console.log("YEAH");
-        console.log(seq);
+
         it('should return true when the argument is a string', function() {
             seq.contains(fileString).should.be.true;
         })
@@ -305,26 +304,28 @@ describe('Sequence.prototype.format()', function() {
 });
 
 describe('Sequence.prototype.format() for single sequences', function() {
-    console.log("---x");
+    //console.log('xxx');
     var seq = new Sequence(singleFileString);
-    console.log("x---");
+    //console.log("XXX");
+    //console.log(seq._significantGroup);
     describe('given no arguments', function() {
 
         it('should output a string in default format ' +
            '(%b%p%a)', function() {
-            seq.format().should.equal('a123Sequence.%04d.txt');
+            seq.format().should.equal('singleFile123sequence.0001.txt');
         });
     });
 
     describe('given a format string', function() {
 
         it('should replace directives with pertinent information', function() {
-            seq.format('%04l %b%r%a').should.equal('0005 a123Sequence.1-5.txt');
-            seq.format('%s %e').should.equal('1 5');
-            seq.format('%02s %02e').should.equal('01 05');
-            seq.format('%04r').should.equal('0001-0005');
-            seq.format('%b%#%a').should.equal('a123Sequence.####.txt');
-            seq.format('%r %p %r').should.equal('1-5 %04d 1-5');
+            //console.log(seq._significantGroup);
+            seq.format('%04l %b%r%a').should.equal('0001 singleFile123sequence.1-1.txt');
+            seq.format('%s %e').should.equal('1 1');
+            seq.format('%02s %02e').should.equal('01 01');
+            seq.format('%04r').should.equal('0001-0001');
+            seq.format('%b%#%a').should.equal('singleFile123sequence.####.txt');
+            seq.format('%r %p %r').should.equal('1-1 %04d 1-1');
         });
 
         it('should replace unknown directives with the literal ' +

@@ -17,14 +17,19 @@ describe('new File(String)', function() {
 
         it('should create an array of digit groups by matching /\\d+/g ' +
            'against the basepath', function() {
-            file.digits[0].should.have.properties({match: '123', index: 1});
-            file.digits[1].should.have.properties({match: '0001', index: 13});
+            file.digits[0].match.should.equal('123');
+            file.digits[0].index.should.equal(1);
+            file.digits[1].match.should.equal('0001');
+            file.digits[1].index.should.equal(13);
 
             var fileB = new File('/path/to/file/AR145_GB_SB_1.1001.exr');
             
-            fileB.digits[0].should.have.properties({match: '145', index: 2});
-            fileB.digits[1].should.have.properties({match: '1', index: 12});
-            fileB.digits[2].should.have.properties({match: '1001', index: 14});
+            fileB.digits[0].match.should.equal('145');
+            fileB.digits[0].index.should.equal(2);
+            fileB.digits[1].match.should.equal('1');
+            fileB.digits[1].index.should.equal(12);
+            fileB.digits[2].match.should.equal('1001');
+            fileB.digits[2].index.should.equal(14);
         });
     });
 });

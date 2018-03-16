@@ -12,6 +12,9 @@ describe('lss(String, Callback)', function() {
 
             lss(path, function(err, sequences) {
                 sequences.should.have.length(4);
+                for(var i=0; i<sequences.length; i++){
+                    console.log(sequences[i].format('%r'))
+                }
                 done();
             });
         });
